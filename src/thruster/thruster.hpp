@@ -3,7 +3,7 @@
 #include "thruster_info.hpp"
 #include <Servo.h>
 namespace sensing_and_control_unit
-{
+{    
     class Thrusters
     {
     private:
@@ -15,6 +15,4 @@ namespace sensing_and_control_unit
         void setPWMs(int pwm_values[kThrusterCount]);
     };
 } // namespace sensing_and_control_unit
-
-
 #endif // SENSING_AND_CONTROL_UNIT_SRC_THRUSTER_THRUSTER_HPP
