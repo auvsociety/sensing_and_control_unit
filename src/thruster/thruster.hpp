@@ -7,7 +7,7 @@ namespace sensing_and_control_unit
     class Thrusters
     {
     private:
-        Servo thrusters[kThrusterCount];
+        Servo thrusters_[kThrusterCount];
     public:
         Thrusters();
         ~Thrusters();
