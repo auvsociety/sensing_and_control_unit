@@ -9,7 +9,7 @@ private:
 public:
     Lumen(/* args */);
     ~Lumen();
-    void init();
+    void initialize();
     void setBrightness(int brightness);
     void turnOn();
     void turnOff();
