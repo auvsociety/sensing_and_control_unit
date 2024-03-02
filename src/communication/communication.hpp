@@ -14,13 +14,13 @@ class Communication {
   void initialize();
 
   float getDepthSensorOffset();
-  Vec3f getAccelerometerOffsets();
-  Vec3f getGyroscopeOffsets();
-  Vec3f getMagnetometerSoftIronOffsets();
-  Mat3x3f getMagnetometerHardIronOffsets();
+  Vec3f getAccelerometerOffset();
+  Vec3f getGyroscopeOffset();
+  Vec3f getMagnetometerHardIronOffset();
+  Mat3x3f getMagnetometerSoftIronMatrix();
 
   void sendOrientation(Vec3f orientation);
-  void sendIMURawData(Vec3i accelerometer, Vec3i gyroscope, Vec3i magnetometer);
+  void sendIMURawData(Vec3f accelerometer, Vec3f gyroscope, Vec3f magnetometer);
   void sendIMUData(Vec3f acceleration, Vec3f angular_velocity,
                    Vec3f magnetic_field);
   void sendDepthRawData(int depth);
