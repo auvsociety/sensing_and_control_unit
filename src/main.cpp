@@ -23,7 +23,7 @@ void setup() {
   imu.initialize(communication);
   lumen.initialize();
   thrusters.initialize();
-  orientation_filter.initialize();
+  orientation_filter.initialize(kRefreshIntervalInMs);
 }
 
 void loop() {
@@ -32,9 +32,9 @@ void loop() {
   static float depth = 0;
   static int depth_raw_data = 0;
 
-  static Vec3i raw_accelerometer_reading{0, 0, 0};
-  static Vec3i raw_gyroscope_reading{0, 0, 0};
-  static Vec3i raw_magnetometer_reading{0, 0, 0};
+  static Vec3f raw_accelerometer_reading{0, 0, 0};
+  static Vec3f raw_gyroscope_reading{0, 0, 0};
+  static Vec3f raw_magnetometer_reading{0, 0, 0};
 
   static Vec3f acceleration{0, 0, 0};
   static Vec3f angular_velocity{0, 0, 0};

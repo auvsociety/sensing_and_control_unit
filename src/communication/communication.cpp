@@ -16,8 +16,8 @@ Mat3x3f Communication::getMagnetometerHardIronOffsets() { return Mat3x3f(); }
 
 void Communication::sendOrientation(Vec3f orientation){};
 
-void Communication::sendIMURawData(Vec3i accelerometer, Vec3i gyroscope,
-                                   Vec3i magnetometer){};
+void Communication::sendIMURawData(Vec3f accelerometer, Vec3f gyroscope,
+                                   Vec3f magnetometer){};
 
 void Communication::sendIMUData(Vec3f acceleration, Vec3f angular_velocity,
                                 Vec3f magnetic_field){};
