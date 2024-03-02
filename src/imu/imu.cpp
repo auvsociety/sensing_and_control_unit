@@ -7,6 +7,7 @@ Imu::~Imu() {}
 void Imu::initialize(Communication& communication) {
   accelerometer_magnetometer_ =
       Adafruit_FXOS8700(accelerometer_address, magnetometer_address);
+
   Vec3f accelerometer_offset_vec3_ = communication.getAccelerometerOffset();
   Vec3f gyroscope_offset_vec3_ = communication.getGyroscopeOffset();
   Vec3f hard_iron_offset_vec3_ = communication.getMagnetometerHardIronOffset();
@@ -82,11 +83,11 @@ Vec3f Imu::getAngularVelocity() {
 
 Vec3f Imu::getMagneticField() {
   FusionVector magnetometer;
-  magnetometer = FusionCalibrationMagnetic(magnetometer, soft_iron_matrix,
-                                           hard_iron_offset);
-  magnetic_field = {magnetometer.axis.x, magnetometer.axis.y,
+  magnetometer = FusionCalibrationMagnetic(magnetometer, soft_iron_matrix_,
+                                           hard_iron_offset_);
+  magnetic_field_ = {magnetometer.axis.x, magnetometer.axis.y,
                     magnetometer.axis.z};
-  return magnetic_field;
+  return magnetic_field_;
 }
 
 }  // namespace sensing_and_control_unit
