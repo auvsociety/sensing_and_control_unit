@@ -13,6 +13,7 @@ class Communication {
   ~Communication();
   void initialize();
 
+  float getDepthSensorOffset();
   Vec3f getAccelerometerOffsets();
   Vec3f getGyroscopeOffsets();
   Vec3f getMagnetometerSoftIronOffsets();
