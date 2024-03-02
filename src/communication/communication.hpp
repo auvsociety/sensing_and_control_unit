@@ -1,6 +1,5 @@
 #ifndef SENSING_AND_CONTROL_UNIT_SRC_COMMUNICATION_COMMUNICATION_HPP
 #define SENSING_AND_CONTROL_UNIT_SRC_COMMUNICATION_COMMUNICATION_HPP
-#include "Fusion.h"
 #include "error.hpp"
 #include "mat3x3.hpp"
 #include "vec3.hpp"
@@ -14,22 +13,11 @@ class Communication {
   ~Communication();
   void initialize();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+  float getDepthSensorOffset();
   Vec3f getAccelerometerOffset();
   Vec3f getGyroscopeOffset();
   Vec3f getMagnetometerHardIronOffset();
   Mat3x3f getMagnetometerSoftIronMatrix();
-  float getDepthSensorOffset();
-=======
-=======
->>>>>>> origin/main
-  float getDepthSensorOffset();
-  Vec3f getAccelerometerOffsets();
-  Vec3f getGyroscopeOffsets();
-  Vec3f getMagnetometerSoftIronOffsets();
-  Mat3x3f getMagnetometerHardIronOffsets();
->>>>>>> origin/main
 
   void sendOrientation(Vec3f orientation);
   void sendIMURawData(Vec3f accelerometer, Vec3f gyroscope, Vec3f magnetometer);
