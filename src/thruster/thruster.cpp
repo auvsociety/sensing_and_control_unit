@@ -1,8 +1,19 @@
+// thruster.cpp
+
 #include "thruster.hpp"
 
 namespace sensing_and_control_unit {
+
+/**
+ * @file thruster.cpp
+ * @brief Implements the methods of the Thrusters class for controlling and
+ * managing thrusters.
+ */
+
+// Constructor
 Thrusters::Thrusters() {}
 
+// Destructor
 Thrusters::~Thrusters() {}
 
 /**
@@ -46,10 +57,24 @@ void Thrusters::setPWMs(const int32_t pwm_values[kThrusterCount]) {
   for (int thruster_index = 0; thruster_index < kThrusterCount;
        thruster_index++) {
     pwm_value = pwm_values[thruster_index];
+
+    // limiting PWM value to the specified range
     pwm_value = limitToMinMax(pwm_value, kMinPwmValue, kMaxPwmValue);
+
     thrusters_[thruster_index].writeMicroseconds(pwm_value);
   }
 }
+
+/**
+ * @brief Limits a value to a specified range.
+ *
+ * This function ensures that the input value is within the specified range.
+ *
+ * @param value The value to be limited.
+ * @param min The minimum allowed value.
+ * @param max The maximum allowed value.
+ * @return The limited value within the specified range.
+ */
 
 int32_t Thrusters::limitToMinMax(int32_t value, int32_t min, int32_t max) {
   if (value < min) {
