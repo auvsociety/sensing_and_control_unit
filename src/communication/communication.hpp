@@ -21,8 +21,7 @@ class Communication {
 
   void sendOrientation(Vec3f orientation);
   void sendIMURawData(Vec3i accelerometer, Vec3i gyroscope, Vec3i magnetometer);
-  void sendIMUData(Vec3f acceleration, Vec3f angular_velocity,
-                   Vec3f magnetic_field);
+  void sendIMUData(Vec3f acceleration, Vec3f angular_velocity, Vec3f magnetic_field);
   void sendDepthRawData(int depth);
   void sendDepth(float depth);
 
