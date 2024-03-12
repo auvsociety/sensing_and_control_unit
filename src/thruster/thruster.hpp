@@ -9,7 +9,8 @@ namespace sensing_and_control_unit {
 
 /**
  * @file thruster.hpp
- * @brief Contains the Thrusters class for controlling and managing thrusters.
+ * @brief Contains the declarartion of the Thrusters class for controlling and
+ * managing thrusters.
  */
 
 /**
@@ -22,7 +23,22 @@ namespace sensing_and_control_unit {
 
 class Thrusters {
  private:
+  /**
+   * @brief Array of Servo objects for controlling thrusters.
+   */
   Servo thrusters_[kThrusterCount];
+
+  /**
+   * @brief Limits a value to a specified range.
+   *
+   * This function ensures that the input value is within the specified range.
+   *
+   * @param value The value to be limited.
+   * @param min The minimum allowed value.
+   * @param max The maximum allowed value.
+   * @return The limited value within the specified range.
+   */
+
   int32_t limitToMinMax(int32_t value, int32_t min, int32_t max);
 
  public:
