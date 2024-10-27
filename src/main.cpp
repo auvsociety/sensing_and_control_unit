@@ -44,6 +44,7 @@ void loop() {
   static bool calibrate_flag = false;
   static bool diagnostics_flag = false;
   static bool pwm_flag = false;
+  static bool lumen_flag = false;
 
   static int led_indicator = 0;
   static int pwm_values[kThrusterCount] = {0, 0, 0, 0, 0, 0};
@@ -62,16 +63,23 @@ void loop() {
 
   calibrate_flag = communication.getCalibrateFlag();
   diagnostics_flag = communication.getDiagnosticsFlag();
+  lumen_flag = communication.getLumenFlag();
 
   if(calibrate_flag)
   {
       imu.calculateOffsets();
       depth_sensor.calculateOffsets();
+      calibrate_flag = false;
   }
   if(diagnostics_flag)
   {
-      led_indicator = communication.getLedIndicator();
-      diagnostics.setLed(led_indicator);
+      diagnostics.setLed(communication.getLedIndicator());
+      diagnostics_flag = false;
+  }
+  if(lumen_flag)
+  {
+      lumen.setBrightness(communication.getLumenBrightness());
+      lumen_flag = false;
   }
 
   voltage = bms.getVoltage();
@@ -112,6 +120,7 @@ void loop() {
           pwm_values[i] = communication.getPWMValues(i);
       }
       thrusters.setPWMs(pwm_values);
+      pwm_flag = false;
   }
 
   communication.recieveCommands();

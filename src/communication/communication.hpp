@@ -22,8 +22,10 @@ class Communication {
   bool getCalibrateFlag();
   bool getDiagnosticsFlag();
   bool getPWMFlag();
+  bool getLumenFlag();
   int getLedIndicator();
   int getPWMValues(int i);
+  int getLumenBrightness();
 
   void sendOrientation(Vec3f orientation);
   void sendIMURawData(Vec3f accelerometer, Vec3f gyroscope, Vec3f magnetometer);

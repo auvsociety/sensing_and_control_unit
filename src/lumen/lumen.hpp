@@ -14,8 +14,6 @@ class Lumen {
   ~Lumen();
   void initialize();
   void setBrightness(int brightness);
-  void turnOn();
-  void turnOff();
 };
 }  // namespace sensing_and_control_unit
 
