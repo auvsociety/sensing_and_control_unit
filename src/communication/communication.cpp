@@ -12,7 +12,11 @@ bool Communication::getDiagnosticsFlag() { return bool(); }
 
 bool Communication::getPWMFlag() { return bool(); }
 
+bool Communication::getLumenFlag() { return bool(); }
+
 int Communication::getLedIndicator() { return int(); }
+
+int Communication::getLumenBrightness() { return int(); }
 
 int Communication::getPWMValues(int i) { return int(); }
 
