@@ -6,8 +6,13 @@
 #include "lumen/lumen.hpp"
 #include "orientation_filter/orientation_filter.hpp"
 #include "thruster/thruster.hpp"
+#include "diagnostics_led/diagnostics_led.hpp"
+#include "oled/oled.hpp"
+#include "bms/bms.hpp"
+
 
 const int kRefreshIntervalInMs = 100;
+const int kDisplayTimeInSec = 2;
 using namespace sensing_and_control_unit;
 
 Communication communication;
@@ -16,25 +21,38 @@ Imu imu;
 Lumen lumen;
 Thrusters thrusters;
 OrientationFilter orientation_filter;
+Diagnostics diagnostics;
+Oled oled;
+BMS bms;
+
 
 void setup() {
   communication.initialize();
-  depth_sensor.initialize(communication);
-  imu.initialize(communication);
+  depth_sensor.initialize();
+  imu.initialize();
   lumen.initialize();
   thrusters.initialize();
   orientation_filter.initialize();
+  diagnostics.initialize();
+  oled.initialize(); 
+  bms.initialize();
 }
 
 void loop() {
   static float last_time = 0, current_time = 0;
 
-  static float depth = 0;
-  static int depth_raw_data = 0;
+  static bool calibrate_flag = false;
+  static bool diagnostics_flag = false;
+  static bool pwm_flag = false;
 
-  static Vec3i raw_accelerometer_reading{0, 0, 0};
-  static Vec3i raw_gyroscope_reading{0, 0, 0};
-  static Vec3i raw_magnetometer_reading{0, 0, 0};
+  static int led_indicator = 0;
+  static int pwm_values[kThrusterCount] = {0, 0, 0, 0, 0, 0};
+
+  static float depth = 0;
+
+  static float voltage = 0;
+  static float current = 0;
+  static float temperature = 0;
 
   static Vec3f acceleration{0, 0, 0};
   static Vec3f angular_velocity{0, 0, 0};
@@ -42,37 +60,58 @@ void loop() {
 
   static Vec3f orientation{0, 0, 0};
 
-  current_time = millis();
+  calibrate_flag = communication.getCalibrateFlag();
+  diagnostics_flag = communication.getDiagnosticsFlag();
 
+  if(calibrate_flag)
+  {
+      imu.calculateOffsets();
+      depth_sensor.calculateOffsets();
+  }
+  if(diagnostics_flag)
+  {
+      led_indicator = communication.getLedIndicator();
+      diagnostics.setLed(led_indicator);
+  }
+
+  voltage = bms.getVoltage();
+  current = bms.getCurrent();
+  temperature = bms.getTemperature();
+
+  oled.display(voltage, current, temperature, kDisplayTimeInSec);
+
+  current_time = millis();
+  
   // Send data every 100ms
   if (current_time - last_time >= kRefreshIntervalInMs) {
     last_time = current_time;
 
     depth_sensor.update();
+    depth_sensor.calibrate();
     imu.update();
+    imu.calibrate();
 
-    depth_raw_data = depth_sensor.getRawReading();
     depth = depth_sensor.getDepth();
-
-    raw_accelerometer_reading = imu.getRawAccelerometerReading();
-    raw_gyroscope_reading = imu.getRawGyroscopeReading();
-    raw_magnetometer_reading = imu.getRawMagnetometerReading();
-
     acceleration = imu.getAcceleration();
     angular_velocity = imu.getAngularVelocity();
     magnetic_field = imu.getMagneticField();
 
     orientation = orientation_filter.getEulerAngles();
 
-    communication.sendDepthRawData(depth_raw_data);
     communication.sendDepth(depth);
 
-    communication.sendIMURawData(raw_accelerometer_reading,
-                                 raw_gyroscope_reading,
-                                 raw_magnetometer_reading);
     communication.sendIMUData(acceleration, angular_velocity, magnetic_field);
 
     communication.sendOrientation(orientation);
+  }
+  pwm_flag = communication.getPWMFlag();
+  if(pwm_flag)
+  {
+      for (int i = 0; i < kThrusterCount; i++)
+      {
+          pwm_values[i] = communication.getPWMValues(i);
+      }
+      thrusters.setPWMs(pwm_values);
   }
 
   communication.recieveCommands();

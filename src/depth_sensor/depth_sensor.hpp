@@ -4,13 +4,16 @@
 namespace sensing_and_control_unit {
 class DepthSensor {
  private:
+    float depth_ = 0;
+    float depth_offset_ = 0;
   /* data */
  public:
   DepthSensor(/* args */);
   ~DepthSensor();
-  void initialize(Communication& communication);
+  void initialize();
+  void calculateOffsets();
   void update();
-  int getRawReading();
+  void calibrate();
   float getDepth();
 };
 }  // namespace sensing_and_control_unit

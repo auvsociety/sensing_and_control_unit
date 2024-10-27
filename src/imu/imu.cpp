@@ -4,15 +4,13 @@ namespace sensing_and_control_unit {
 Imu::Imu() {}
 Imu::~Imu() {}
 
-void Imu::initialize(Communication& communication) {}
+void Imu::initialize() {}
 
 void Imu::update() {}
 
-Vec3i Imu::getRawAccelerometerReading() { return Vec3i(); }
+void Imu::calculateOffsets() {}
 
-Vec3i Imu::getRawGyroscopeReading() { return Vec3i(); }
-
-Vec3i Imu::getRawMagnetometerReading() { return Vec3i(); }
+void Imu::calibrate() {}
 
 Vec3f Imu::getAcceleration() { return Vec3f(); }
 

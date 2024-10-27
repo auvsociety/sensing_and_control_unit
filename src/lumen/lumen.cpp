@@ -4,15 +4,12 @@ namespace sensing_and_control_unit {
 Lumen::Lumen() {}
 Lumen::~Lumen() {}
 
-void Lumen::initialize() {
-  lumen_.attach(kLumenPin);
-  lumen_.write(0);
-}
+void Lumen::initialize() {}
 
-void Lumen::setBrightness(int brightness) { lumen_.write(brightness); }
+void Lumen::setBrightness(int brightness) {}
 
-void Lumen::turnOn() { lumen_.write(180); }
+void Lumen::turnOn() {}
 
-void Lumen::turnOff() { lumen_.write(0); }
+void Lumen::turnOff() { }
 
 }  // namespace sensing_and_control_unit

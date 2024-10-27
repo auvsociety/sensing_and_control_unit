@@ -4,11 +4,13 @@ namespace sensing_and_control_unit {
 DepthSensor::DepthSensor() {}
 DepthSensor::~DepthSensor() {}
 
-void DepthSensor::initialize(Communication& communication) {}
+void DepthSensor::initialize() {}
+
+void DepthSensor::calculateOffsets() {}
 
 void DepthSensor::update() {}
 
-int DepthSensor::getRawReading() { return 0; }
+void DepthSensor::calibrate() {}
 
 float DepthSensor::getDepth() { return 0; }
 
