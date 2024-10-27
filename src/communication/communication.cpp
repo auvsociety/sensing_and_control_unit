@@ -6,18 +6,20 @@ Communication::~Communication() {}
 
 void Communication::initialize() {}
 
-Vec3f Communication::getAccelerometerOffsets() { return Vec3f(); }
+bool Communication::getCalibrateFlag() { return bool(); }
 
-Vec3f Communication::getGyroscopeOffsets() { return Vec3f(); }
+bool Communication::getDiagnosticsFlag() { return bool(); }
 
-Vec3f Communication::getMagnetometerSoftIronOffsets() { return Vec3f(); }
+bool Communication::getPWMFlag() { return bool(); }
 
-Mat3x3f Communication::getMagnetometerHardIronOffsets() { return Mat3x3f(); }
+int Communication::getLedIndicator() { return int(); }
+
+int Communication::getPWMValues(int i) { return int(); }
 
 void Communication::sendOrientation(Vec3f orientation){};
 
-void Communication::sendIMURawData(Vec3i accelerometer, Vec3i gyroscope,
-                                   Vec3i magnetometer){};
+void Communication::sendIMURawData(Vec3f accelerometer, Vec3f gyroscope,
+                                   Vec3f magnetometer){};
 
 void Communication::sendIMUData(Vec3f acceleration, Vec3f angular_velocity,
                                 Vec3f magnetic_field){};

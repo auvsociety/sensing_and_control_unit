@@ -1,26 +1,32 @@
 #ifndef SENSING_AND_CONTROL_UNIT_SRC_COMMUNICATION_COMMUNICATION_HPP
 #define SENSING_AND_CONTROL_UNIT_SRC_COMMUNICATION_COMMUNICATION_HPP
 #include "error.hpp"
-#include "mat3x3.hpp"
 #include "vec3.hpp"
+#include "thruster_info.hpp"
 
 namespace sensing_and_control_unit {
 class Communication {
  private:
-  /* data */
+    bool calibrate_flag_ = false;
+    bool diagnostics_flag_ = false;
+    bool pwm_flag_ = false;
+    int led_indicator_ = 0;
+    int pwm_values_[kThrusterCount] = {0, 0, 0, 0, 0, 0};
+
+ 
  public:
   Communication(/* args */);
   ~Communication();
   void initialize();
 
-  float getDepthSensorOffset();
-  Vec3f getAccelerometerOffsets();
-  Vec3f getGyroscopeOffsets();
-  Vec3f getMagnetometerSoftIronOffsets();
-  Mat3x3f getMagnetometerHardIronOffsets();
+  bool getCalibrateFlag();
+  bool getDiagnosticsFlag();
+  bool getPWMFlag();
+  int getLedIndicator();
+  int getPWMValues(int i);
 
   void sendOrientation(Vec3f orientation);
-  void sendIMURawData(Vec3i accelerometer, Vec3i gyroscope, Vec3i magnetometer);
+  void sendIMURawData(Vec3f accelerometer, Vec3f gyroscope, Vec3f magnetometer);
   void sendIMUData(Vec3f acceleration, Vec3f angular_velocity,
                    Vec3f magnetic_field);
   void sendDepthRawData(int depth);
