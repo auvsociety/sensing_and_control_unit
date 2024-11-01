@@ -33,7 +33,7 @@ class Communication {
     bool diagnostics_flag_ = false;
     bool pwm_flag_ = false;
     int led_indicator_ = 0;
-    int pwm_values_[kThrusterCount] = {0,0,0,0,0,0};
+    int pwm_values_[kThrusterCount] = {1500,1500,1500,1500,1500,1500};
     int lumen_brightness_ = 1100;
 
  public:
