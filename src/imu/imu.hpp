@@ -3,7 +3,8 @@
 #include "communication/communication.hpp"
 #include "vec3.hpp"
 #include "mat3x3.hpp"
-
+#include "Adafruit_MPU6050.h"
+#include "Adafruit_HMC5883_U.h"
 namespace sensing_and_control_unit {
 class Imu {
  private:

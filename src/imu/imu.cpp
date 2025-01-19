@@ -1,5 +1,7 @@
 #include "imu.hpp"
-
+ 
+Adafruit_HMC5883_Unified mag ;
+Adafruit_MPU6050 mpu;
 namespace sensing_and_control_unit {
 Imu::Imu() {}
 Imu::~Imu() {}
@@ -14,18 +16,18 @@ void Imu::initialize() {
     Serial.println("MPU Connection successfull");
      while(!mag.begin())
     {
-        Serial.println(" FXOS8700 Connection failed");
+        Serial.println(" hmc Connection failed");
         delay(10);
     }
-    Serial.println("FXOS8700 Connection successfull");
+    Serial.println("hmc Connection successfull");
     calculateOffsets();
 }
 
 
 void Imu::update() {
-    sensors_event_t a,g,t,m ;
+    sensors_event_t a,g,m,t ;
     mpu.getEvent(&a, &g, &t);
-    mag.getEvent(&t ,&m);
+    mag.getEvent(&m);
     acceleration_.x=a.acceleration.x;
     acceleration_.y=a.acceleration.y;
     acceleration_.z=a.acceleration.z;
@@ -41,19 +43,31 @@ void Imu::calculateOffsets() {
     for(int i=0;i<100;i++)
     {
         update();
-        accelerometer_offset_+= acceleration_;
-        gyroscope_offset_+= angular_velocity_;
+        accelerometer_offset_.x= accelerometer_offset_.x + acceleration_.x;
+        accelerometer_offset_.y= accelerometer_offset_.y + acceleration_.y;
+        accelerometer_offset_.z= accelerometer_offset_.z + acceleration_.z;
+        gyroscope_offset_.x+= angular_velocity_.x;
+        gyroscope_offset_.y+= angular_velocity_.y;
+        gyroscope_offset_.z+= angular_velocity_.z;
     }
-    accelerometer_offset_/=100;
-    gyroscope_offset_/=100;
+    accelerometer_offset_.x/=100;
+    accelerometer_offset_.y/=100;
+    accelerometer_offset_.z/=100;
+    gyroscope_offset_.x/=100;
+    gyroscope_offset_.y/=100;
+    gyroscope_offset_.z/=100;
     accelerometer_offset_.z-=9.8;
     }
 
 
 void Imu::calibrate() {
-     acceleration_-=accelerometer_offset_;
-     angular_velocity_-= gyroscope_offset_;
-    //  magnetic_field_= (magnetic_field-magnetometer_hard_iron_offset)*magnetometer_soft_iron_offset;
+     acceleration_.x-=accelerometer_offset_.x;
+      acceleration_.y-=accelerometer_offset_.y;
+       acceleration_.z-=accelerometer_offset_.z;
+     angular_velocity_.x-= gyroscope_offset_.x;
+     angular_velocity_.y-= gyroscope_offset_.y;
+     angular_velocity_.z-= gyroscope_offset_.z;
+     magnetic_field_= (magnetic_field_ - magnetometer_hard_iron_offset_)*magnetometer_soft_iron_offset_;
 }
 
 Vec3f Imu::getAcceleration() { 
